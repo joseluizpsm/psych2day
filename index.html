@@ -1,10 +1,215 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Plataforma de Avaliação em Saúde Mental</title>
+    <link rel="stylesheet" href="src/css/main.css">
+    <link rel="stylesheet" href="src/css/themes.css">
 </head>
-<body>
+<body data-theme="light">
+<!-- Navigation Header -->
+<header class="app-header">
+    <div class="container">
+        <div class="header-content">
+            <h1 class="app-title">Avaliação em Saúde Mental</h1>
+            <nav class="main-nav">
+                <button class="nav-btn" data-page="home">Início</button>
+                <button class="nav-btn" data-page="profiles">Perfis</button>
+                <button class="nav-btn" data-page="tests">Avaliações</button>
+                <button class="nav-btn" data-page="results">Resultados</button>
+                <button class="nav-btn" data-page="settings">Configurações</button>
+            </nav>
+            <div class="header-controls">
+                <button class="audio-toggle" id="audioToggle">
+                    <span class="icon">🎵</span>
+                </button>
+                <div class="profile-selector">
+                    <select id="currentProfile">
+                        <option value="">Selecionar Perfil</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
 
+<!-- Main Content Area -->
+<main class="app-main">
+    <div class="container">
+
+        <!-- Home Page -->
+        <div class="page active" id="home-page">
+            <div class="welcome-section">
+                <h2>Bem-vindo à sua jornada de bem-estar</h2>
+                <p>Esta plataforma oferece ferramentas de avaliação em saúde mental baseadas em questionários cientificamente validados e de domínio público.</p>
+
+                <div class="quick-actions">
+                    <div class="action-card">
+                        <h3>Novo Perfil</h3>
+                        <p>Crie um perfil para começar suas avaliações</p>
+                        <button class="btn-primary" data-action="create-profile">Criar Perfil</button>
+                    </div>
+
+                    <div class="action-card">
+                        <h3>Avaliação Rápida</h3>
+                        <p>Faça uma avaliação básica de humor</p>
+                        <button class="btn-secondary" data-action="quick-assessment">PHQ-9 + GAD-7</button>
+                    </div>
+
+                    <div class="action-card">
+                        <h3>Ver Resultados</h3>
+                        <p>Acompanhe seu progresso ao longo do tempo</p>
+                        <button class="btn-outline" data-action="view-results">Meus Resultados</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="disclaimer">
+                <p><strong>Importante:</strong> Esta ferramenta é destinada apenas para fins informativos e de bem-estar pessoal. Não substitui consulta médica ou psicológica profissional.</p>
+            </div>
+        </div>
+
+        <!-- Profiles Page -->
+        <div class="page" id="profiles-page">
+            <h2>Gerenciar Perfis</h2>
+            <div class="profiles-container">
+                <div class="profile-actions">
+                    <button class="btn-primary" id="createProfileBtn">Novo Perfil</button>
+                    <button class="btn-outline" id="importProfileBtn">Importar Perfil</button>
+                </div>
+                <div class="profiles-list" id="profilesList">
+                    <!-- Profiles will be dynamically loaded here -->
+                </div>
+            </div>
+        </div>
+
+        <!-- Tests Page -->
+        <div class="page" id="tests-page">
+            <h2>Avaliações Disponíveis</h2>
+            <div class="tests-categories">
+
+                <div class="test-category">
+                    <h3>Saúde Mental Básica</h3>
+                    <div class="tests-grid">
+                        <div class="test-card" data-test="PHQ-9">
+                            <h4>PHQ-9</h4>
+                            <p>Questionário de Depressão</p>
+                            <span class="test-duration">~5 min</span>
+                            <button class="btn-primary">Iniciar</button>
+                        </div>
+                        <div class="test-card" data-test="GAD-7">
+                            <h4>GAD-7</h4>
+                            <p>Ansiedade Generalizada</p>
+                            <span class="test-duration">~3 min</span>
+                            <button class="btn-primary">Iniciar</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- More categories will be added as tests are implemented -->
+            </div>
+        </div>
+
+        <!-- Results Page -->
+        <div class="page" id="results-page">
+            <h2>Seus Resultados</h2>
+            <div class="results-container">
+                <div class="results-filters">
+                    <select id="resultsProfile">
+                        <option value="">Todos os perfis</option>
+                    </select>
+                    <select id="resultsTimeframe">
+                        <option value="all">Todo o período</option>
+                        <option value="30">Últimos 30 dias</option>
+                        <option value="90">Últimos 3 meses</option>
+                        <option value="365">Último ano</option>
+                    </select>
+                </div>
+                <div class="results-content" id="resultsContent">
+                    <!-- Results will be dynamically loaded here -->
+                </div>
+            </div>
+        </div>
+
+        <!-- Settings Page -->
+        <div class="page" id="settings-page">
+            <h2>Configurações</h2>
+            <div class="settings-container">
+
+                <div class="settings-section">
+                    <h3>Áudio</h3>
+                    <div class="setting-item">
+                        <label>
+                            <input type="checkbox" id="backgroundMusic">
+                            Música de fundo
+                        </label>
+                    </div>
+                    <div class="setting-item">
+                        <label>Volume da música</label>
+                        <input type="range" id="musicVolume" min="0" max="1" step="0.1" value="0.5">
+                    </div>
+                    <div class="setting-item">
+                        <label>
+                            <input type="checkbox" id="soundEffects">
+                            Efeitos sonoros
+                        </label>
+                    </div>
+                </div>
+
+                <div class="settings-section">
+                    <h3>Aparência</h3>
+                    <div class="setting-item">
+                        <label>Tema</label>
+                        <select id="themeSelect">
+                            <option value="light">Claro</option>
+                            <option value="dark">Escuro</option>
+                        </select>
+                    </div>
+                    <div class="setting-item">
+                        <label>Tamanho da fonte</label>
+                        <select id="fontSizeSelect">
+                            <option value="small">Pequena</option>
+                            <option value="medium">Média</option>
+                            <option value="large">Grande</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="settings-section">
+                    <h3>Dados</h3>
+                    <div class="setting-actions">
+                        <button class="btn-outline" id="exportDataBtn">Exportar Dados</button>
+                        <button class="btn-outline" id="importDataBtn">Importar Dados</button>
+                        <button class="btn-danger" id="clearDataBtn">Limpar Todos os Dados</button>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+</main>
+
+<!-- Test Modal -->
+<div class="modal" id="testModal">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h3 id="testTitle">Avaliação</h3>
+            <button class="modal-close">&times;</button>
+        </div>
+        <div class="modal-body" id="testContent">
+            <!-- Test questions will be loaded here -->
+        </div>
+    </div>
+</div>
+
+<!-- Loading Overlay -->
+<div class="loading-overlay" id="loadingOverlay">
+    <div class="loading-spinner"></div>
+    <p>Carregando...</p>
+</div>
+
+<script type="module" src="src/js/main.js"></script>
 </body>
 </html>
