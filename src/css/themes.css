@@ -1,0 +1,94 @@
+/* src/css/themes.css - Theme support for dark mode and accessibility */
+
+/* Dark Theme Variables */
+[data-theme="dark"] {
+    --bg-primary: #1f2937;
+    --bg-secondary: #111827;
+    --bg-tertiary: #374151;
+    --text-primary: #f9fafb;
+    --text-secondary: #d1d5db;
+    --text-muted: #9ca3af;
+    --accent-primary: #60a5fa;
+    --accent-secondary: #34d399;
+    --accent-danger: #f87171;
+    --accent-warning: #fbbf24;
+    --border-color: #4b5563;
+    --shadow-light: 0 1px 3px rgba(0, 0, 0, 0.3);
+    --shadow-medium: 0 4px 6px rgba(0, 0, 0, 0.3);
+    --shadow-heavy: 0 10px 15px rgba(0, 0, 0, 0.3);
+}
+
+/* Font Size Variations */
+[data-font-size="small"] {
+    --font-size-base: 0.875rem;
+    --font-size-sm: 0.75rem;
+    --font-size-lg: 1rem;
+    --font-size-xl: 1.125rem;
+    --font-size-2xl: 1.25rem;
+    --font-size-3xl: 1.5rem;
+}
+
+[data-font-size="large"] {
+    --font-size-base: 1.125rem;
+    --font-size-sm: 1rem;
+    --font-size-lg: 1.25rem;
+    --font-size-xl: 1.5rem;
+    --font-size-2xl: 1.75rem;
+    --font-size-3xl: 2.25rem;
+}
+
+/* High Contrast Mode */
+[data-contrast="high"] {
+    --bg-primary: #000000;
+    --bg-secondary: #ffffff;
+    --text-primary: #ffffff;
+    --text-secondary: #000000;
+    --accent-primary: #ffff00;
+    --border-color: #ffffff;
+}
+
+[data-contrast="high"][data-theme="dark"] {
+    --bg-primary: #ffffff;
+    --bg-secondary: #000000;
+    --text-primary: #000000;
+    --text-secondary: #ffffff;
+    --accent-primary: #0000ff;
+    --border-color: #000000;
+}
+
+/* Smooth transitions for theme switching */
+* {
+    transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+}
+
+/* Dark mode specific adjustments */
+[data-theme="dark"] .modal {
+    background-color: rgba(0, 0, 0, 0.8);
+}
+
+[data-theme="dark"] .disclaimer {
+    background-color: #451a03;
+    border-color: #f59e0b;
+    color: #fbbf24;
+}
+
+[data-theme="dark"] .loading-overlay {
+    background-color: rgba(31, 41, 55, 0.9);
+}
+
+/* Print styles */
+@media print {
+    [data-theme="dark"] {
+        --bg-primary: #ffffff;
+        --bg-secondary: #f8fafc;
+        --text-primary: #1a202c;
+        --text-secondary: #4a5568;
+        --border-color: #e2e8f0;
+    }
+    
+    .app-header,
+    .modal,
+    .loading-overlay {
+        display: none !important;
+    }
+}

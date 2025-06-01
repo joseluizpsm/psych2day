@@ -1,9 +1,13 @@
 // src/js/main.js - Main application logic
 import { DataManager, TEST_DEFINITIONS } from './storage.js';
+import { ProfileManager } from './profiles.js';
+import { ResultsManager } from './results.js';
 
 class MentalHealthApp {
     constructor() {
         this.dataManager = new DataManager();
+        this.profileManager = new ProfileManager(this.dataManager);
+        this.resultsManager = new ResultsManager(this.dataManager);
         this.currentPage = 'home';
         this.currentProfile = null;
         this.audioManager = null; // Will be implemented in Phase 5
@@ -45,7 +49,7 @@ class MentalHealthApp {
 
         // Profile management
         document.getElementById('createProfileBtn')?.addEventListener('click', () => {
-            this.showCreateProfileModal();
+            this.profileManager.showCreateProfileModal();
         });
 
         // Test cards
@@ -59,6 +63,15 @@ class MentalHealthApp {
 
         // Settings
         this.initializeSettingsListeners();
+
+        // Results filters
+        document.getElementById('resultsProfile')?.addEventListener('change', () => {
+            this.resultsManager.loadResultsPage();
+        });
+
+        document.getElementById('resultsTimeframe')?.addEventListener('change', () => {
+            this.resultsManager.loadResultsPage();
+        });
 
         // Modal close
         document.querySelectorAll('.modal-close').forEach(btn => {
@@ -106,7 +119,7 @@ class MentalHealthApp {
                 this.loadProfilesPage();
                 break;
             case 'results':
-                this.loadResultsPage();
+                this.resultsManager.loadResultsPage();
                 break;
             case 'tests':
                 this.loadTestsPage();
@@ -114,7 +127,7 @@ class MentalHealthApp {
         }
     }
 
-    // Profile Management
+    // Profile Management (delegated to ProfileManager)
     loadProfiles() {
         const data = this.dataManager.getData();
         const profileSelector = document.getElementById('currentProfile');
@@ -160,7 +173,7 @@ class MentalHealthApp {
         <div class="empty-state">
           <h3>Nenhum perfil encontrado</h3>
           <p>Crie seu primeiro perfil para começar a usar a plataforma.</p>
-          <button class="btn-primary" onclick="app.showCreateProfileModal()">Criar Primeiro Perfil</button>
+          <button class="btn-primary" onclick="app.profileManager.showCreateProfileModal()">Criar Primeiro Perfil</button>
         </div>
       `;
             return;
@@ -183,8 +196,8 @@ class MentalHealthApp {
           <button class="btn-primary" onclick="app.selectProfile('${profile.id}')">
             ${this.currentProfile?.id === profile.id ? 'Selecionado' : 'Selecionar'}
           </button>
-          <button class="btn-outline" onclick="app.editProfile('${profile.id}')">Editar</button>
-          <button class="btn-danger" onclick="app.deleteProfile('${profile.id}')">Excluir</button>
+          <button class="btn-outline" onclick="app.profileManager.editProfile('${profile.id}')">Editar</button>
+          <button class="btn-danger" onclick="app.profileManager.deleteProfile('${profile.id}')">Excluir</button>
         </div>
       `;
             profilesList.appendChild(profileCard);
@@ -477,7 +490,7 @@ class MentalHealthApp {
     handleAction(action) {
         switch (action) {
             case 'create-profile':
-                this.showCreateProfileModal();
+                this.profileManager.showCreateProfileModal();
                 break;
             case 'quick-assessment':
                 if (!this.currentProfile) {
@@ -490,11 +503,6 @@ class MentalHealthApp {
                 this.showPage('results');
                 break;
         }
-    }
-
-    showCreateProfileModal() {
-        // This will be implemented when we create the profile creation modal
-        alert('Funcionalidade de criação de perfil será implementada na próxima fase.');
     }
 
     closeModal() {
@@ -532,11 +540,6 @@ class MentalHealthApp {
             localStorage.removeItem(this.dataManager.storageKey);
             location.reload();
         }
-    }
-
-    loadResultsPage() {
-        // Will be implemented in Phase 4
-        console.log('Loading results page...');
     }
 
     loadTestsPage() {
