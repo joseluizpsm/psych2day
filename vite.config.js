@@ -1,43 +1,27 @@
-// vite.config.js
 import { defineConfig } from 'vite'
+import { VitePWA } from 'vite-pwa'
 
 export default defineConfig({
-    // Base URL for deployment (change this for your hosting)
-    base: './',
-
-    // Build configuration
-    build: {
-        outDir: 'dist',
-        assetsDir: 'assets',
-        sourcemap: true,
-
-        // Optimize for modern browsers but maintain compatibility
-        target: 'es2018',
-
-        rollupOptions: {
-            input: {
-                main: './index.html'
-            }
-        }
-    },
-
-    // Development server configuration
-    server: {
-        port: 3000,
-        open: true,
-        host: true
-    },
-
-    // CSS configuration
-    css: {
-        devSourcemap: true
-    },
-
-    // Plugins (add more as needed)
-    plugins: [],
-
-    // Optimize dependencies
-    optimizeDeps: {
-        include: ['chart.js', 'jspdf']
-    }
+  plugins: [
+    VitePWA({
+      registerType: 'autoUpdate',
+      manifest: {
+        name: 'Plataforma de Avaliação em Saúde Mental',
+        short_name: 'Saúde Mental',
+        theme_color: '#ffffff',
+        icons: [
+          {
+            src: '/icon-192x192.png',
+            sizes: '192x192',
+            type: 'image/png'
+          },
+          {
+            src: '/icon-512x512.png',
+            sizes: '512x512',
+            type: 'image/png'
+          }
+        ]
+      }
+    })
+  ]
 })
